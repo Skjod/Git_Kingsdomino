@@ -1,0 +1,20 @@
+import numpy as np
+import cv2 as cv
+
+rows = 5
+cols = 5
+
+tileType = ["forest", "grass", "water", "desert"]
+plane = []
+
+
+for i in range(rows):
+    row = []
+    for j in range(cols):
+        row.append(0)
+    plane.append(row)
+
+for i in range(rows):
+    for j in range(cols):
+        print(plane[i][j], end=" ")
+    print()
