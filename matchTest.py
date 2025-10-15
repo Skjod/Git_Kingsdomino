@@ -19,8 +19,8 @@ parser.add_argument('ImageFiles/CroppedBoards/1.jpg', type=str, action='store',
                     help='The image to be searched in')
 parser.add_argument('ImageFiles/CroppedBoards/output1.jpg', action='store_true',
                     help='Shows result image')
-# parser.add_argument('--save-dir', type=str, default='./',
-#                     help='Directory in which you desire to save the result image')
+parser.add_argument('ImageFiles/savedImg', type=str, default='./',
+                    help='Directory in which you desire to save the result image')
 
 args = parser.parse_args()
 
