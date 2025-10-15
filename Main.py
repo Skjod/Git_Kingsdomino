@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #importer billede
-img = cv.imread("ImageFiles/CroppedBoards/1.jpg")
+img = cv.imread("ImageFiles/CroppedBoards/56.jpg")
 
 #øg kontrasten
 #plt.subplot(1,2,1)
