@@ -69,12 +69,12 @@ def PointCounter_fun(matrix,crowns,tileTypes):
             for j in range(cols):
                 if matrix[i][j] == match:
                     #print("blob detected")
-                    print(i, j)
+                    print(match, "at: ", i, j)
                     spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
                     blobNum += 1
     print(blobs)
     #print(points)
-    return points
+    return sum(points)
 
     '''for i in range(rows):
         for j in range(cols):

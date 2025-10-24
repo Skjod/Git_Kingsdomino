@@ -7,7 +7,7 @@ from CrownDetection import Crown_fun
 
 
 
-image = cv.imread("ImageFiles/CroppedBoards/56.jpg")
+image = cv.imread("ImageFiles/CroppedBoards/73.jpg")
 
 labels = ["forest", "grasslands", "wheat", "swamp", "mine", "lake"]
 crowns = Crown_fun(image)
