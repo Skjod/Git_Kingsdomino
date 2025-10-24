@@ -74,7 +74,7 @@ for r, row in enumerate(board):
 #cv.imshow("felt", cells[1][0])
 #cv.waitKey(0)
 #cv.destroyAllWindows()
-template = cv.imread("ImageFiles/Templates/Krone.png")
+''''template = cv.imread("ImageFiles/Templates/")
 
 hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
