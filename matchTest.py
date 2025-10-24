@@ -43,7 +43,7 @@ def get_matched_coordinates(temp_img, map_img):
         an array that contains matched coordinates
 
     """
-    temp_img = cv2.imread("ImageFiles/crown3.png")
+    temp_img = cv2.imread("ImageFiles/Templates/crown3.png")
     map_img = cv2.imread("ImageFiles/CroppedBoards/1.jpg")
 
     # initiate SIFT detector
