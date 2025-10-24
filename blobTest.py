@@ -1,24 +1,89 @@
 import cv2
 import numpy as np
 import glob, os
+from collections import deque
+
+from cv2.gapi import combine
 
 # Load image
-imageMatch = cv2.imread("ImageFiles/CroppedBoards/1.jpg")
-img = cv2.imread("ImageFiles/CroppedBoards/1.jpg", cv2.IMREAD_GRAYSCALE)
+img = cv2.imread("ImageFiles/CroppedBoards/1.jpg")
+#img = cv2.imread("ImageFiles/CroppedBoards/1.jpg", cv2.IMREAD_GRAYSCALE)
+
 temp = cv2.imread("ImageFiles/Templates/crown3.png")
 temp90 = cv2.imread("ImageFiles/Templates/crown90.png")
 temp180 = cv2.imread("ImageFiles/Templates/crown180.png")
 temp270 = cv2.imread("ImageFiles/Templates/crown270.png")
-match = cv2.matchTemplate(imageMatch, temp, cv2.TM_CCOEFF_NORMED)
-match90 = cv2.matchTemplate(imageMatch, temp90, cv2.TM_CCOEFF_NORMED)
-match180 = cv2.matchTemplate(imageMatch, temp180, cv2.TM_CCOEFF_NORMED)
-match270 = cv2.matchTemplate(imageMatch, temp270, cv2.TM_CCOEFF_NORMED)
-threshTemp = cv2.threshold(match, 0.55, 255, cv2.THRESH_BINARY)[1]
-threshTemp90 = cv2.threshold(match90, 0.55, 255, cv2.THRESH_BINARY)[1]
-threshTemp180 = cv2.threshold(match180, 0.55, 255, cv2.THRESH_BINARY)[1]
-threshTemp270 = cv2.threshold(match270, 0.55, 255, cv2.THRESH_BINARY)[1]
-thresh = cv2.threshold(img,127,255,cv2.THRESH_BINARY)[1]
 
+dq = deque([])
+blob = 0 #information stored in current blob
+blobs = [] #collected information about blobs
+points = []
+crownCount = 0
+blobNum = 0
+
+def spit(i, j, matrix, blobNum):
+    if dq:
+        dq.popleft()
+        dq.popleft()
+
+    if matrix[i][j+1] == 1:
+        dq.append(i)
+        dq.append(j+1)
+    if matrix[i+1][j] == 1:
+        dq.append(i+1)
+        dq.append(j)
+    if matrix[i-1][j] == 1:
+        dq.append(i-1)
+        dq.append(j)
+    if matrix[i][j-1] == 1:
+        dq.append(i)
+        dq.append(j-1)
+
+    matrix[i][j] = "burnt"
+    if dq:
+        spit(dq[0], dq[1], matrix, blobNum)
+
+ROWS, COLS = 5, 5
+cell_height = img.shape[0] // ROWS
+cell_width  = img.shape[1] // COLS
+
+board = []
+
+for y in range(ROWS):
+    row = []
+    for x in range(COLS):
+        # Klip ét felt ud
+        cell = img[y*cell_height:(y+1)*cell_height,
+                   x*cell_width:(x+1)*cell_width]
+        row.append(cell)
+    board.append(row)
+
+for y in range(ROWS):
+    for x in range(COLS):
+        cell = board[y][x]
+
+        match = cv2.matchTemplate(cell, temp, cv2.TM_CCOEFF_NORMED)
+        match90 = cv2.matchTemplate(cell, temp90, cv2.TM_CCOEFF_NORMED)
+        match180 = cv2.matchTemplate(cell, temp180, cv2.TM_CCOEFF_NORMED)
+        match270 = cv2.matchTemplate(cell, temp270, cv2.TM_CCOEFF_NORMED)
+        threshTemp = cv2.threshold(match, 0.55, 255, cv2.THRESH_BINARY)[1]
+        threshTemp90 = cv2.threshold(match90, 0.55, 255, cv2.THRESH_BINARY)[1]
+        threshTemp180 = cv2.threshold(match180, 0.55, 255, cv2.THRESH_BINARY)[1]
+        threshTemp270 = cv2.threshold(match270, 0.55, 255, cv2.THRESH_BINARY)[1]
+        #thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)[1]
+        print(threshTemp[0][0])
+        if threshTemp[y][x] == 1:
+            print("blob detected")
+            # print(i, j)
+            spit(100, 100, threshTemp)
+            blobNum += 1
+
+        window_name = f"Felt {y},{x}"
+        cv2.imshow(window_name, threshTemp)
+
+print(blobNum)
+
+print(threshTemp)
 
 # # Setup SimpleBlobDetector parameters
 # params = cv2.SimpleBlobDetector_Params()
@@ -60,11 +125,11 @@ thresh = cv2.threshold(img,127,255,cv2.THRESH_BINARY)[1]
 
 # Show the output
 # cv2.imshow("Blobs Detected", output)
-cv2.imshow("image", imageMatch)
-cv2.imshow("thresh", thresh)
-cv2.imshow("match", match)
-cv2.imshow("thresh", threshTemp)
+cv2.imshow("image", img)
+#cv2.imshow("thresh", thresh)
+#cv2.imshow("match", match)
+'''cv2.imshow("thresh", threshTemp)
 cv2.imshow("thresh90", threshTemp90)
 cv2.imshow("thresh180", threshTemp180)
-cv2.imshow("thresh270", threshTemp270)
+cv2.imshow("thresh270", threshTemp270)'''
 cv2.waitKey(0)

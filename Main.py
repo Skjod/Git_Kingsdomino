@@ -74,7 +74,7 @@ for r, row in enumerate(board):
 #cv.imshow("felt", cells[1][0])
 #cv.waitKey(0)
 #cv.destroyAllWindows()
-''''template = cv.imread("ImageFiles/Templates/")
+template = cv.imread("ImageFiles/Templates/")
 
 hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
@@ -88,6 +88,7 @@ green[imask] = img[imask]
 
 cv.imshow("green img", green)
 cv.waitKey(0)'''
+
 
 image = cv.imread("ImageFiles/CroppedBoards/56.jpg")
 
