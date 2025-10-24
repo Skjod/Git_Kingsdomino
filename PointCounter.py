@@ -67,21 +67,21 @@ def spit(i, j, matrix, blobNum, blob, crownCount, match, crowns):
 def seperateTiles(matrix, crowns, tileTypes):
     blobNum = 0
     for match in tileTypes:
-        print(match)
+        #print(match)
         for i in range(rows):
             for j in range(cols):
                 if matrix[i][j] == match:
-                    print("blob detected")
-                    print(i, j)
+                    #print("blob detected")
+                    #print(i, j)
                     spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
                     blobNum += 1
-    print(blobs)
-    print(points)
+    #print(blobs)
+    #print(points)
 
 
-for i in range(rows):
+'''for i in range(rows):
     for j in range(cols):
         print(plane[i][j], end=" ")
-    print()
+    print()'''
 
 seperateTiles(plane, planeCrowns, tileElements)

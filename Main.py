@@ -2,11 +2,12 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 from PointCounter import seperateTiles
+from Classifier import Classifier_method
 
 #importer billede
-img = cv.imread("ImageFiles/CroppedBoards/56.jpg")
 
-#øg kontrasten
+
+'''#øg kontrasten
 #plt.subplot(1,2,1)
 
 #brightness = 1
@@ -73,7 +74,7 @@ for r, row in enumerate(board):
 #cv.imshow("felt", cells[1][0])
 #cv.waitKey(0)
 #cv.destroyAllWindows()
-''''template = cv.imread("ImageFiles/Templates/Krone.png")
+template = cv.imread("ImageFiles/Templates/Krone.png")
 
 hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
@@ -87,3 +88,11 @@ green[imask] = img[imask]
 
 cv.imshow("green img", green)
 cv.waitKey(0)'''
+
+image = cv.imread("ImageFiles/CroppedBoards/56.jpg")
+
+Classifier_method(image)
+
+
+
+#print(Classifier_method(image))
