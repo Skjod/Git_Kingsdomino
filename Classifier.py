@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import pickle
 
-image = cv2.imread("ImageFiles/CroppedBoards/60.jpg")
+image = cv2.imread("ImageFiles/TestBilleder/60.jpg")
 
 
 

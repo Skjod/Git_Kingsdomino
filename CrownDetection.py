@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-image = cv2.imread("ImageFiles/CroppedBoards/67.jpg")
+image = cv2.imread("ImageFiles/TestBilleder/67.jpg")
 
 def Crown_fun(img):
 
