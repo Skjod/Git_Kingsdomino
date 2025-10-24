@@ -59,7 +59,7 @@ import pickle
 (model, le) = pickle.load(open("knn_model.pkl", "rb"))
 
 # importer billede
-img = cv2.imread("ImageFiles/CroppedBoards/62.jpg")
+img = cv2.imread("ImageFiles/CroppedBoards/60.jpg")
 
 ROWS, COLS = 5, 5
 cell_height = img.shape[0] // ROWS
