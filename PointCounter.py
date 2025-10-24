@@ -41,22 +41,18 @@ def PointCounter_fun(matrix,crowns,tileTypes):
         if dq:
             dq.popleft()
             dq.popleft()
-        if j < 6:
-            if matrix[i][j+1] == match:
-                dq.append(i)
-                dq.append(j+1)
-        if i < 6:
-            if matrix[i+1][j] == match:
-                dq.append(i+1)
-                dq.append(j)
-        if i >= 0:
-            if matrix[i-1][j] == match:
-                dq.append(i-1)
-                dq.append(j)
-        if i >= 0:
-            if matrix[i][j-1] == match:
-                dq.append(i)
-                dq.append(j-1)
+        if j + 1 < cols and matrix[i][j+1] == match:
+            dq.append(i)
+            dq.append(j+1)
+        if i + 1 < rows and matrix[i+1][j] == match:
+            dq.append(i+1)
+            dq.append(j)
+        if i - 1 >= 0 and matrix[i-1][j] == match:
+            dq.append(i-1)
+            dq.append(j)
+        if j - 1 >= 0 and matrix[i][j-1] == match:
+            dq.append(i)
+            dq.append(j-1)
 
         matrix[i][j] = "burnt"
         if dq:
@@ -73,10 +69,10 @@ def PointCounter_fun(matrix,crowns,tileTypes):
             for j in range(cols):
                 if matrix[i][j] == match:
                     #print("blob detected")
-                    #print(i, j)
+                    print(i, j)
                     spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
                     blobNum += 1
-    #print(blobs)
+    print(blobs)
     #print(points)
     return points
 
