@@ -41,19 +41,22 @@ def PointCounter_fun(matrix,crowns,tileTypes):
         if dq:
             dq.popleft()
             dq.popleft()
-
-        if matrix[i][j+1] == match:
-            dq.append(i)
-            dq.append(j+1)
-        if matrix[i+1][j] == match:
-            dq.append(i+1)
-            dq.append(j)
-        if matrix[i-1][j] == match:
-            dq.append(i-1)
-            dq.append(j)
-        if matrix[i][j-1] == match:
-            dq.append(i)
-            dq.append(j-1)
+        if j < 6:
+            if matrix[i][j+1] == match:
+                dq.append(i)
+                dq.append(j+1)
+        if i < 6:
+            if matrix[i+1][j] == match:
+                dq.append(i+1)
+                dq.append(j)
+        if i >= 0:
+            if matrix[i-1][j] == match:
+                dq.append(i-1)
+                dq.append(j)
+        if i >= 0:
+            if matrix[i][j-1] == match:
+                dq.append(i)
+                dq.append(j-1)
 
         matrix[i][j] = "burnt"
         if dq:
