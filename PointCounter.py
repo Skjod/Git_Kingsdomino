@@ -25,10 +25,7 @@ for i in range(rows):
 planeCrowns[0][1] = 1
 planeCrowns[1][1] = 2
 
-def PointCounter_fun(tiles,crown,labels):
-    matrix = tiles
-    crowns = crown
-    tileTypes = labels
+def PointCounter_fun(matrix,crowns,tileTypes):
     ### spit function
     dq = deque([])
     blob = 0 #information stored in current blob
@@ -66,21 +63,19 @@ def PointCounter_fun(tiles,crown,labels):
             points.append(blobs[blobNum] * crownCount)
 
 
-    ### call this method when calculating points; takes 2 matrices and 1 list
-    def seperateTiles(matrix, crowns, tileTypes):
-        blobNum = 0
-        for match in tileTypes:
-            #print(match)
-            for i in range(rows):
-                for j in range(cols):
-                    if matrix[i][j] == match:
-                        #print("blob detected")
-                        #print(i, j)
-                        spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
-                        blobNum += 1
-        #print(blobs)
-        #print(points)
-        return points
+    blobNum = 0
+    for match in tileTypes:
+        #print(match)
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j] == match:
+                    #print("blob detected")
+                    #print(i, j)
+                    spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
+                    blobNum += 1
+    #print(blobs)
+    #print(points)
+    return points
 
     '''for i in range(rows):
         for j in range(cols):
