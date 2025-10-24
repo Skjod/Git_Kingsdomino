@@ -1,55 +1,3 @@
-'''import cv2 as cv
-import numpy as np
-import pickle
-from Preprocessor import SimplePreprocessor
-
-(model, le) = pickle.load(open("knn_model.pkl", "rb"))
-
-#importer billede
-img = cv.imread("ImageFiles/CroppedBoards/73.jpg")
-
-ROWS, COLS = 5, 5
-cell_height = img.shape[0] // ROWS
-cell_width  = img.shape[1] // COLS
-
-#lav tom matrix
-board = []
-
-#gennemgå hvert enkelt felt og crop det
-for y in range(ROWS):
-    row = []
-    for x in range(COLS):
-        # Klip ét felt ud
-        cell = img[y*cell_height:(y+1)*cell_height,
-                   x*cell_width:(x+1)*cell_width]
-        row.append(cell)
-    board.append(row)
-
-sp = SimplePreprocessor(64, 64)
-
-board_labels = []
-
-for y in range(ROWS):
-    row_labels = []
-    for x in range(COLS):
-        cell = board[y][x]
-
-        # preprocess cellen
-        cell_proc = sp.preprocess(cell).reshape(1, 64*64*3)
-
-        # lav prediktion
-        pred = model.predict(cell_proc)[0]
-
-        # konverter tal til tekstlabel
-        label_text = le.inverse_transform([pred])[0]
-        row_labels.append(label_text)
-
-    board_labels.append(row_labels)
-
-# print hele boardet med tekstlabels
-for row in board_labels:
-    print(row)'''
-
 from skimage.feature import hog
 import cv2
 import numpy as np
@@ -59,7 +7,7 @@ image = cv2.imread("ImageFiles/CroppedBoards/60.jpg")
 
 
 
-def Classifier_method(img):
+def Classifier_fun(img):
     # load model
     (model, le) = pickle.load(open("knn_model.pkl", "rb"))
 
