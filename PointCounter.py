@@ -72,15 +72,15 @@ def PointCounter_fun(matrix,crowns,tileTypes):
                 if matrix[i][j] == match:
                     #print("blob detected")
                     spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
-                    coordinates += str(match) + " at: (" + str(i + 1) + ", " + str(j + 1) + "), with " + str(blobs[blobNum]) + " connected tiles\n"
+                    coordinates += str(match) + " at: (" + str(j + 1) + ", " + str(i + 1) + "), with " + str(blobs[blobNum]) + " connected tiles\n"
                     blobNum += 1
 
     for i in range(rows):
         for j in range(cols):
             if crowns[i][j] > 0:
-                coordinates += "\n" + str(crowns[i][j]) + " crown(s) detected at: (" + str(i + 1) + ", " + str(j + 1) + ")"
+                coordinates += "\n" + str(crowns[i][j]) + " crown(s) detected at: (" + str(j + 1) + ", " + str(i + 1) + ")"
     coordinates += "\n\ntotal points: " + str(sum(points))
 
     return coordinates
 
-print(PointCounter_fun(plane, planeCrowns, tileElements))
+# print(PointCounter_fun(plane, planeCrowns, tileElements))
