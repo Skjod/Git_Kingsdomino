@@ -1,4 +1,4 @@
-'''import os
+import os
 import cv2
 import numpy as np
 from collections import deque
@@ -68,9 +68,9 @@ def PointCounter_fun_laura(matrix, crowns, tileTypes, board_image, board_idx=0):
                     blobNum += 1
 
     print(blobs)
-    return sum(points)'''
+    return sum(points)
 
-import os
+'''import os
 import csv
 from collections import deque
 import copy  # <-- til at gemme kopi af matrix
@@ -140,4 +140,4 @@ def PointCounter_fun_laura(matrix, crowns, tileTypes, board_idx=0, output_csv_fo
 
     print(f"CSV gemt for board {board_idx}: {csv_path}")
 
-    return sum(points)
+    return sum(points)'''

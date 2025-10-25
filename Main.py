@@ -1,7 +1,7 @@
-'''import cv2 as cv
+import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
-from PointCounterLaura import PointCounter_fun_laura
+from PointCounter import PointCounter_fun
 from Classifier import Classifier_fun
 from CrownDetection import Crown_fun
 
@@ -13,12 +13,12 @@ labels = ["forest", "grasslands", "wheat", "swamp", "mine", "lake"]
 crowns = Crown_fun(image)
 tiles = Classifier_fun(image)
 
-points = PointCounter_fun_laura(tiles, crowns, labels, board_image=image, board_idx=73)
+points = PointCounter_fun(tiles, crowns, labels)
 
 print(points)
-#print(Classifier_method(image))'''
+#print(Classifier_method(image))
 
-import cv2 as cv
+'''import cv2 as cv
 import numpy as np
 import os
 from PointCounterLaura import PointCounter_fun_laura
@@ -48,4 +48,4 @@ for idx, file in enumerate(os.listdir(image_folder)):
     # Kør point counter og gem tiles til confusion matrix
     points = PointCounter_fun_laura(tiles, crowns, labels, board_idx=idx)
 
-    print(f"Board {idx} ({file}) score: {points}")
+    print(f"Board {idx} ({file}) score: {points}")'''
