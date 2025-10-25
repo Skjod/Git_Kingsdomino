@@ -40,7 +40,7 @@ def Crown_fun(img):
             threshTemp90 = cv2.threshold(match90, 0.55, 255, cv2.THRESH_BINARY)[1]
             threshTemp180 = cv2.threshold(match180, 0.55, 255, cv2.THRESH_BINARY)[1]
             threshTemp270 = cv2.threshold(match270, 0.55, 255, cv2.THRESH_BINARY)[1]
-            #thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)[1]
+
             total = 0
             for t in [threshTemp, threshTemp90, threshTemp180, threshTemp270]:
                 t = (t > 0).astype(np.uint8) * 255
