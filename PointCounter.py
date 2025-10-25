@@ -2,6 +2,7 @@ import numpy as np
 import cv2 as cv
 from collections import deque
 
+
 ### create example matrix
 rows = 5
 cols = 5
@@ -30,8 +31,10 @@ def PointCounter_fun(matrix,crowns,tileTypes):
     dq = deque([])
     blob = 0 #information stored in current blob
     blobs = [] #collected information about blobs
+    blobNum = 0
     points = []
     crownCount = 0
+    coordinates = ""
 
     def spit(i, j, matrix, blobNum, blob, crownCount, match, crowns):
         if matrix[i][j] != "burnt":
@@ -62,25 +65,22 @@ def PointCounter_fun(matrix,crowns,tileTypes):
             points.append(blobs[blobNum] * crownCount)
 
 
-    blobNum = 0
     for match in tileTypes:
         #print(match)
         for i in range(rows):
             for j in range(cols):
                 if matrix[i][j] == match:
                     #print("blob detected")
-                    print(match, "at: ", i, j)
                     spit(i, j, matrix, blobNum, blob, crownCount, match, crowns)
+                    coordinates += str(match) + " at: (" + str(j + 1) + ", " + str(i + 1) + "), with " + str(blobs[blobNum]) + " connected tiles\n"
                     blobNum += 1
-    print(blobs)
-    #print(points)
-    return sum(points)
 
-    '''for i in range(rows):
+    for i in range(rows):
         for j in range(cols):
-            print(plane[i][j], end=" ")
-        print()'''
+            if crowns[i][j] > 0:
+                coordinates += "\n" + str(crowns[i][j]) + " crown(s) detected at: (" + str(j + 1) + ", " + str(i + 1) + ")"
+    coordinates += "\n\ntotal points: " + str(sum(points))
 
-    seperateTiles(plane, planeCrowns, tileElements)
+    return coordinates
 
-print(PointCounter_fun(plane, planeCrowns, tileElements))
+# print(PointCounter_fun(plane, planeCrowns, tileElements))
