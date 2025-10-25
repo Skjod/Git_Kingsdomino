@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import pickle
 
-image = cv2.imread("ImageFiles/TestBilleder/60.jpg")
+image = cv2.imread("ImageFiles/TestBilleder/61.jpg")
 
 
 
@@ -50,5 +50,6 @@ def Classifier_fun(img):
        matrix.append(row)
 
     return matrix
+
 
 
