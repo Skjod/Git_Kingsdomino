@@ -1,88 +1,51 @@
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
-
-#importer billede
-img = cv.imread("ImageFiles/CroppedBoards/56.jpg")
-
-#øg kontrasten
-#plt.subplot(1,2,1)
-
-#brightness = 1
-#contrast = 1.5
-
-#conImg = cv.addWeighted(img, contrast, np.zeros(img.shape, img.dtype), 0, brightness)
-
-#lav et grid med 5 rækker og 5 kolonner
-ROWS, COLS = 5, 5
-cell_height = img.shape[0] // ROWS
-cell_width  = img.shape[1] // COLS
-
-#lav tom matrix
-board = []
-
-#gennemgå hvert enkelt felt og crop det
-for y in range(ROWS):
-    row = []
-    for x in range(COLS):
-        # Klip ét felt ud
-        cell = img[y*cell_height:(y+1)*cell_height,
-                   x*cell_width:(x+1)*cell_width]
-        row.append(cell)
-    board.append(row)
-
-terrain_hsv = {
-    "forest":  ((35, 15, 0), (85, 255, 70)),
-    "Grasslands":  ((35, 50, 70), (85, 255, 255)),
-    "Wheat fields":  ((20, 100, 150), (35, 255, 255)),
-    "Swamps": ((20, 50, 70), (50, 200, 180)),
-    "Mines": ((0, 0, 0), (180, 100, 255)),
-    "Lakes":   ((90, 50, 50), (140, 255, 255))
-}
-
-for y in range(ROWS):
-    for x in range(COLS):
-        cell = board [y][x]
-        hsv_cell = cv.cvtColor(cell, cv.COLOR_BGR2HSV)
-
-        terrain_found = None
-        for terrain, (lower, upper) in terrain_hsv.items():
-            mask = cv.inRange(hsv_cell, np.array(lower), np.array(upper))
-            if cv.countNonZero(mask) > 0.3 * mask.size:  # mere end 50% af pixels matcher
-                terrain_found = terrain
-                break
-
-        if terrain_found is None:
-            terrain_found = "unknown"  # fallback
-
-                # Gem terræntypen i matrixen
-        board[y][x] = {"terrain": terrain_found, "crowns": 0}
-
-for r, row in enumerate(board):
-        for c, cell in enumerate(row):
-            print(f"Felt ({r},{c}): {cell['terrain']}, {cell['crowns']} kroner")
-
-
-            # Vis feltet i et vindue
-        #window_name = f"Felt {y},{x}"
-        #cv.imshow(window_name, cell)
+from PointCounter import PointCounter_fun
+from Classifier import Classifier_fun
+from CrownDetection import Crown_fun
 
 
 
-#cv.imshow("felt", cells[1][0])
-#cv.waitKey(0)
-#cv.destroyAllWindows()
-''''template = cv.imread("ImageFiles/Templates/Krone.png")
+image = cv.imread("ImageFiles/TestBilleder/73.jpg")
 
-hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+labels = ["forest", "grasslands", "wheat", "swamp", "mine", "lake"]
+crowns = Crown_fun(image)
+tiles = Classifier_fun(image)
 
-#templated = cv.matchTemplate(img, template, cv.TM_CCOEFF_NORMED)
+points = PointCounter_fun(tiles, crowns, labels)
 
-mask = cv.inRange(hsv, (36, 25, 25), (70, 255,100))
+print(points)
+#print(Classifier_method(image))
 
-imask = mask>0
-green = np.zeros_like(img, np.uint8)
-green[imask] = img[imask]
+'''import cv2 as cv
+import numpy as np
+import os
+from PointCounterLaura import PointCounter_fun_laura
+from Classifier import Classifier_fun
+from CrownDetection import Crown_fun
 
-cv.imshow("green img", green)
-cv.waitKey(0)'''
+# Mappen med billeder
+image_folder = "ImageFiles/TestBilleder"
+
+# Tile labels
+labels = ["forest", "grasslands", "wheat", "swamp", "mine", "lake"]
+
+# Loop over alle billeder
+for idx, file in enumerate(os.listdir(image_folder)):
+    full_path = os.path.join(image_folder, file)
+    image = cv.imread(full_path)
+    if image is None:
+        print(f"Could not load image: {full_path}")
+        continue
+
+    print(f"\nProcessing board {idx}: {file}")
+
+    # Kør klassificering og crowns detection
+    tiles = Classifier_fun(image)
+    crowns = Crown_fun(image)
+
+    # Kør point counter og gem tiles til confusion matrix
+    points = PointCounter_fun_laura(tiles, crowns, labels, board_idx=idx)
+
+    print(f"Board {idx} ({file}) score: {points}")'''
