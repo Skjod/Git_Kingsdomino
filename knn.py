@@ -6,20 +6,17 @@ from imutils import paths
 from skimage.feature import hog
 import cv2
 import numpy as np
-import argparse
 import pickle
 import os
 
-# argumenter
-ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required=True, help="path to input dataset")
-ap.add_argument("-k", "--neighbors", type=int, default=3, help="# of nearest neighbors")
-ap.add_argument("-j", "--jobs", type=int, default=-1, help="# of jobs for KNN")
-args = vars(ap.parse_args())
+
+DATASET_PATH = r"C:\Users\laura\Documents\GitHub\Git_Kingsdomino\dataset"
+K_NEIGHBORS = 3
+JOBS = -1
 
 # find billeder
 print("[INFO] loading images...")
-imagePaths = list(paths.list_images(args["dataset"]))
+imagePaths = list(paths.list_images(DATASET_PATH))
 
 data = []
 labels = []
@@ -40,7 +37,7 @@ def extract_features(image):
         feature_vector=True
     )
 
-    # farvefeatures (nedskaleret for at holde vektoren lille)
+    # farvefeatures
     color_features = cv2.resize(image, (16, 16)).flatten() / 255.0
 
     # kombinér HOG + farve
@@ -50,7 +47,7 @@ def extract_features(image):
 for (i, path) in enumerate(imagePaths):
     image = cv2.imread(path)
     features = extract_features(image)
-    label = os.path.basename(os.path.dirname(path))  # mappenavn som label
+    label = os.path.basename(os.path.dirname(path))
 
     data.append(features)
     labels.append(label)
@@ -63,7 +60,7 @@ labels = np.array(labels)
 
 print(f"[INFO] feature matrix size: {data.shape}")
 
-# encode labels
+
 le = LabelEncoder()
 labels = le.fit_transform(labels)
 
@@ -73,21 +70,21 @@ labels = le.fit_transform(labels)
 
 # KNN model
 print("[INFO] training k-NN classifier...")
-model = KNeighborsClassifier(n_neighbors=args["neighbors"], n_jobs=args["jobs"])
+model = KNeighborsClassifier(n_neighbors=K_NEIGHBORS, n_jobs=JOBS)
 model.fit(trainX, trainY)
 
-# evaluering
+# evaluering af model
 print("[INFO] evaluating classifier...")
 preds = model.predict(testX)
 
 print(classification_report(
     testY,
     preds,
-    labels=le.transform(le.classes_),  # alle labels som integers
-    target_names=le.classes_,          # tilsvarende navne
-    zero_division=0                    # undgår advarsler hvis nogle klasser ikke er i test
+    labels=le.transform(le.classes_),
+    target_names=le.classes_,
+    zero_division=0
 ))
 
 # gem model og labelencoder
-pickle.dump((model, le), open("knn_model.pkl", "wb"))
-print("[INFO] model saved to knn_model.pkl")
+pickle.dump((model, le), open("knn_model_new.pkl", "wb"))
+print("[INFO] model saved to knn_model_new.pkl")
